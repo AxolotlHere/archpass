@@ -1,1 +1,3 @@
-img/archpass-base-img.qcow2
+
+img/*.7z
+img/*.qcow2
