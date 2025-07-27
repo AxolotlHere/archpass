@@ -32,6 +32,7 @@ ArchPass provides an easy way to create, boot, and manage Arch Linux virtual mac
    ```
 
 2. **Run the installation script:**
+   ?
 
    ```bash
    chmod +x install.sh
@@ -44,6 +45,11 @@ ArchPass provides an easy way to create, boot, and manage Arch Linux virtual mac
    - Move the project to `/usr/archpass/`
    - Set proper permissions on scripts
    - Create a symlink to `/usr/local/bin/archpass`
+
+## Username and password
+
+Username : archpass
+Password: pass
 
 ## Usage
 
