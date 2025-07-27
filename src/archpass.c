@@ -5,14 +5,16 @@
 #include <unistd.h>
 
 static int new_img(char *img_name, char *ram_alloc) {
-  char *args[] = {"scripts/new-img.sh", img_name, ram_alloc, NULL};
-  execvp(args[0], args);   // Use execvp instead of execv
-  perror("execvp failed"); // This only runs if execvp fails
+  char *args[] = {"/usr/archpass/scripts/new-img.sh", img_name, ram_alloc,
+                  NULL};
+  execvp(args[0], args);
+  perror("execvp failed");
   return -1;
 }
 
 static int boot_img(char *img_name, char *ram_alloc) {
-  char *args[] = {"scripts/boot-img.sh", img_name, ram_alloc, NULL};
+  char *args[] = {"/usr/archpass/scripts/boot-img.sh", img_name, ram_alloc,
+                  NULL};
   printf("Attempting to boot %s with %s RAM\n", img_name, ram_alloc);
 
   execvp(args[0], args);
@@ -21,7 +23,7 @@ static int boot_img(char *img_name, char *ram_alloc) {
 }
 
 static int del_img(char *img_name) {
-  char *args[] = {"scripts/boot-img.sh", img_name, NULL};
+  char *args[] = {"/usr/archpass/scripts/del-img.sh", img_name, NULL};
   printf("Attempting delete %s\n", img_name);
 
   execvp(args[0], args);
@@ -31,7 +33,7 @@ static int del_img(char *img_name) {
 
 int main(int argc, char *argv[]) {
   if (argc < 2) {
-    printf("Usage: archpass [new|boot|list] [args...]\n");
+    printf("Usage: archpass [new|boot|list|del] [args...]\n");
     return -1;
   }
 
@@ -39,10 +41,12 @@ int main(int argc, char *argv[]) {
     return (argc == 4) ? new_img(argv[2], argv[3]) : -1;
   } else if (strcmp(argv[1], "boot") == 0) {
     return (argc == 4) ? boot_img(argv[2], argv[3]) : -1;
+  } else if (strcmp(argv[1], "del") == 0) {
+    return (argc == 3) ? del_img(argv[2]) : -1;
   } else if (strcmp(argv[1], "list") == 0) {
     FILE *file_ptr;
     char buffer[1024];
-    char *cmd_ = "ls img";
+    char *cmd_ = "ls /usr/archpass/img";
     file_ptr = popen(cmd_, "r");
     if (file_ptr == NULL) {
       perror("Error in locating the images");
